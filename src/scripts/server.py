@@ -17,9 +17,9 @@ async def time(websocket, path):
     fm = FileMonitor(log_file)
     while True:
         # now = datetime.datetime.utcnow().isoformat() + 'Z'
-        modified_data = fm.watch()
-        for data in modified_data:
-            await websocket.send(now)
+        # modified_data = fm.watch()
+        for data in fm.modified_data:
+            await websocket.send(data)
             await asyncio.sleep(random.random() * 3)
 
 

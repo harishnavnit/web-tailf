@@ -2,6 +2,7 @@
 
 import time
 import copy
+import threading
 
 from os.path import join, getmtime
 
@@ -14,9 +15,14 @@ class FileMonitor():
         self.running = False
         self.log_file = log
         self.log_data = []
+        self.modified_data = []
         self.new_log_data = []
 
         self.read()
+
+        thread = threading.Thread(target=self.watch, args=())
+        thread.daemon = True
+        thread.start()
 
 
     def read(self, max_lines=10):
@@ -69,12 +75,12 @@ class FileMonitor():
         except IndexError as err:
             pass
 
-        modified_data = list(reversed(data))
-        print("modified data : ", modified_data)
+        self.modified_data = list(reversed(data))
+        print("modified data : ", self.modified_data)
 
         # Clear the new data set
         self.new_log_data = []
-        return modified_data
+        return self.modified_data
 
 
 if __name__ == "__main__":
