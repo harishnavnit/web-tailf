@@ -1,0 +1,3 @@
+1. Avoid reading the entire file, using <file>.readLines().
+    - Seek to the last position and read the last n lines only.
+2. Remove hardcodings from the websockets launch script.
